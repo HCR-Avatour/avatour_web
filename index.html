@@ -6,44 +6,41 @@
     <style>
       html,
       body {
-        margin: 0;
-        padding: 0;
         height: 100%;
-        font-family: "Arial", sans-serif;
       }
-      #video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
+      a-scene {
         height: 100%;
-        background: rgb(30, 30, 30);
-      }
-      #message {
-        position: absolute;
-        left: 0;
-        top: 0;
         width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        justify-content: center;
-        font-size: 16px;
-        font-weight: bold;
-        color: white;
-        pointer-events: none;
-        padding: 20px;
-        box-sizing: border-box;
-        text-shadow: 0 0 5px black;
+        z-index: 1;
       }
     </style>
+    <script src="./joy.js"></script>
     <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>
+    <!-- <script src="https://cdn.rawgit.com/mrturck/aframe-joystick/master/joystick.min.js"></script> -->
     <link rel="shortcut icon" href="#" />
   </head>
-  <body>
+
+  <body style="width: 100%; height: 100%">
+    <div style="position: absolute; left: 0%; bottom: 0; z-index: 1000">
+      <iframe
+        src="http://146.169.192.252:3000/?type=0"
+        style="left: 0; border: none"
+      ></iframe>
+      <!-- standing -->
+    </div>
+    <div style="position: absolute; right: 0; bottom: 0; z-index: 1000">
+      <!-- <div>
+        Hello
+      </div> -->
+      <iframe
+        src="http://146.169.192.252:3000/?type=1"
+        style="right: 0; border: none"
+      ></iframe>
+      <!-- walking -->
+    </div>
+
     <!-- <video id="video"></video> -->
-    <a-scene id="vr-scene">
+    <a-scene id="vr-scene" embedded>
       <a-assets>
         <video
           id="video"
@@ -55,26 +52,34 @@
         ></video>
       </a-assets>
 
-      <!-- <a-entity
-        geometry="primitive: sphere;
-                          radius: 5000;
-                          segmentsWidth: 64;
-                          segmentsHeight: 64;"
-        material="shader: flat; src: #vid;"
-        scale="-1 1 1"
-      >
-      </a-entity> -->
+      <a-camera position="0 0 0"></a-camera>
        <a-sky rotation="0 -90 0" src="#video"></a-sky>
     </a-scene>
+    <!-- <div
+      id="joyDiv"
+      style="
+        width: 200px;
+        height: 200px;
+        margin-bottom: 20px;
+        position: absolute;
+        z-index: 1000000;
+        bottom: 0;
+      "
+    ></div> -->
 
-    <script>
+    <!-- <script type="text/javascript">
+      // Create JoyStick object into the DIV 'joyDiv'
+      var joy = new JoyStick("joyDiv");
+    </script> -->
+
+    <!-- <script>
       window.addEventListener("click", function () {
         var v = document.querySelector("#video");
         v.play();
       });
-    </script>
+    </script> -->
 
-    <div id="message"></div>
+    <!-- <div id="message"></div> -->
 
     <script>
       const retryPause = 2000;
@@ -95,7 +100,6 @@
         } else {
           video.controls = defaultControls;
         }
-        message.innerText = str;
       };
 
       const unquoteCredential = (v) => JSON.parse(`"${v}"`);
@@ -403,6 +407,7 @@
         video.muted = parseBoolString(params.get("muted"), true);
         video.autoplay = parseBoolString(params.get("autoplay"), true);
         video.playsInline = parseBoolString(params.get("playsinline"), true);
+
         defaultControls = video.controls;
       };
 
