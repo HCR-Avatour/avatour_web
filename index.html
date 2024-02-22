@@ -14,29 +14,18 @@
         z-index: 1;
       }
     </style>
-    <script src="./joy.js"></script>
     <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>
     <!-- <script src="https://cdn.rawgit.com/mrturck/aframe-joystick/master/joystick.min.js"></script> -->
     <link rel="shortcut icon" href="#" />
   </head>
 
   <body style="width: 100%; height: 100%">
-    <div style="position: absolute; left: 0%; bottom: 0; z-index: 1000">
+    <div style="position: absolute; left: 0; bottom: 0; z-index: 1000; width: 100%;">
       <iframe
-        src="http://127.0.0.1:3000/?type=0"
-        style="left: 0; border: none"
+        src="http://146.169.194.4:3000"
+        style="left: 0; border: none; width: 100%;"
       ></iframe>
       <!-- standing -->
-    </div>
-    <div style="position: absolute; right: 0; bottom: 0; z-index: 1000">
-      <!-- <div>
-        Hello
-      </div> -->
-      <iframe
-        src="http://127.0.0.1:3000/?type=1"
-        style="right: 0; border: none"
-      ></iframe>
-      <!-- walking -->
     </div>
 
     <!-- <video id="video"></video> -->
