@@ -1,6 +1,4 @@
-FROM node:20.11.1-alpine
-
-SHELL ["/bin/bash", "-c"]
+FROM node:20.11.1
 
 WORKDIR /work
 
