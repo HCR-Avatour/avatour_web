@@ -1,12 +1,13 @@
 FROM node:20.11.1 as base
 
-WORKDIR /work
+RUN npm install -g create-react-app
 
-COPY public/ /work/public
-COPY src/ /work/src
-COPY package.json /work/
+WORKDIR /work/
 
-RUN npm i react-scripts
+COPY package*.json ./
+
 RUN npm install
 
-CMD ["npm", "start"]
+EXPOSE 3000
+
+COPY . .
