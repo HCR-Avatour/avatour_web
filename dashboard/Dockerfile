@@ -6,6 +6,7 @@ COPY public/ /work/public
 COPY src/ /work/src
 COPY package.json /work/
 
+RUN npm i react-scripts
 RUN npm install
 
 CMD ["npm", "start"]
