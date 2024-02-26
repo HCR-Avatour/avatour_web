@@ -6,6 +6,8 @@ COPY public/ /work/public
 COPY src/ /work/src
 COPY package.json /work/
 
+RUN ls
+
 RUN npm install
 
 CMD ["npm", "start"]
