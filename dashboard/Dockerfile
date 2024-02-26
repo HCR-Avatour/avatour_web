@@ -9,5 +9,6 @@ COPY package*.json ./
 RUN npm install
 
 RUN dir -s
+RUN ls
 
 COPY . .
