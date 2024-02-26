@@ -5,8 +5,10 @@ WORKDIR /work
 ENV PATH /work/node_modules/.bin:$PATH
 
 COPY package.json ./
-RUN npm install
+# RUN npm install
+
+RUN ls
 
 COPY . ./
 
-CMD ["bash"]
+CMD ["npm", "start"]
