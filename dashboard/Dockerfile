@@ -8,6 +8,4 @@ COPY package.json /work/
 
 RUN npm install
 
-RUN ls
-
 CMD ["npm", "start"]
