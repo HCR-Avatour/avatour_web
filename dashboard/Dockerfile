@@ -1,12 +1,13 @@
-FROM node:20.11.1 as base
+FROM node:20.11.1-alpine
 
 WORKDIR /work
 
-COPY public/ /work/public
-COPY src/ /work/src
-COPY package.json /work/
+ENV PATH /work/node_modules/.bin:$PATH
 
-RUN npm i react-scripts
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install
 
-CMD ["npm", "start"]
+COPY . ./
+
+CMD ["bash"]
