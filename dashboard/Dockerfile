@@ -2,8 +2,8 @@ FROM node:20.11.1 as base
 
 WORKDIR /work
 
-COPY public/ /dashboard/public
-COPY src/ /dashboard/src
-COPY package.json /dashboard/
+COPY public/ /work/public
+COPY src/ /work/src
+COPY package.json /work/
 
 RUN npm install
