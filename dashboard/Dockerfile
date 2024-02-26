@@ -7,3 +7,5 @@ COPY src/ /work/src
 COPY package.json /work/
 
 RUN npm install
+
+CMD ["npm", "start"]
