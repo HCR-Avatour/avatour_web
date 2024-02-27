@@ -13,9 +13,9 @@ app.use(cors());
 // Endpoint to handle incoming POST requests
 // where the pipeline sends the msg
 app.post('/', (req, res) => {
-  console.log('Received HTTP request:', req);
+  console.log('Received HTTP request:', req.body);
   res.status(200).send('Request received successfully');
-  bodyString = req.body;
+  bodyString = req.body.transcript;
 });
 
 // sending to the react app
@@ -23,7 +23,11 @@ app.post('/log', (req, res) => {
     // res.set('Access-Control-Allow-Origin', '*');
     console.log('Received HTTP request:', "bodyString");
     // res.status(200).send('Request received successfully');
-    res.status(200).send("bodyString");
+    // res.status(200).send(bodyString);
+
+    // responseData = "{'body': '" + bodyString + "'}"
+    responseData = bodyString
+    res.json(responseData);
 });
 
 app.listen(PORT, () => {
