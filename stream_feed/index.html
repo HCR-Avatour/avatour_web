@@ -15,7 +15,6 @@
       }
     </style>
     <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>
-    <!-- <script src="https://cdn.rawgit.com/mrturck/aframe-joystick/master/joystick.min.js"></script> -->
     <link rel="shortcut icon" href="#" />
   </head>
 
@@ -24,7 +23,7 @@
       style="position: absolute; left: 0; bottom: 0; z-index: 1000; width: 100%"
     >
       <iframe
-        src="http://127.0.0.1:3000"
+        src="https://dashboard.avatour.duckdns.org"
         style="left: 0; border: none; width: 100%"
         allow="camera;microphone"
       ></iframe>
@@ -64,12 +63,12 @@
       var joy = new JoyStick("joyDiv");
     </script> -->
 
-    <!-- <script>
+    <script>
       window.addEventListener("click", function () {
         var v = document.querySelector("#video");
         v.play();
       });
-    </script> -->
+    </script>
 
     <!-- <div id="message"></div> -->
 
@@ -303,7 +302,7 @@
       };
 
       const sendOffer = (offer) => {
-        fetch(new URL("whep", "http://avatour.duckdns.org:8889/theta/"), {
+        fetch(new URL("whep", "https://stream.avatour.duckdns.org/theta/"), {
           method: "POST",
           headers: {
             "Content-Type": "application/sdp",
@@ -321,7 +320,7 @@
             }
             sessionUrl = new URL(
               res.headers.get("location"),
-              "http://avatour.duckdns.org:8889/theta/"
+              "https://stream.avatour.duckdns.org/theta/"
             ).toString();
             return res.text();
           })
@@ -356,7 +355,7 @@
       };
 
       const requestICEServers = () => {
-        fetch(new URL("whep", "http://avatour.duckdns.org:8889/theta/"), {
+        fetch(new URL("whep", "https://stream.avatour.duckdns.org/theta/"), {
           method: "OPTIONS",
         })
           .then((res) => {

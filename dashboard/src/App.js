@@ -8,7 +8,7 @@ function App() {
   const [leftJoystickData, setLeftJoystickData] = useState({ x: 0.0, y: 0.0 });
   const [rightJoystickData, setRightJoystickData] = useState({ x: 0.0, y: 0.0 });
   const [switchState, setSwitchState] = useState(0); // false for off, true for on
-  const url = "http://172.30.36.188:5000";
+  const url = "https://motion.avatour.duckdns.org";
 
   const sendDataToServer = (data) => {
     console.log(data);
@@ -18,7 +18,7 @@ function App() {
         console.log('Success!', response.data);
       })
       .catch(error => {
-        console.error('There was an error!', error);
+        console.error('There was an error!', error.response.data);
       });
   };
 
