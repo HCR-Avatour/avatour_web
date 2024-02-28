@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import GoogleMap from "google-map-react";
 
-const MapComponent = () => {
+const MapApp = () => {
   const [position, setPosition] = useState({ latitude: null, longitude: null });
 
   const Marker = ({ text }) => <div style={{ color: "red" }}>{text}</div>;
@@ -31,7 +31,7 @@ const MapComponent = () => {
   return (
     // Important! Always set the container height explicitly
     <div>
-      <div style={{ height: "20vh", width: "20vw", opacity: 0.5 }}>
+      <div style={{ height: "100vh", width: "100vw" }}>
         <GoogleMap
           bootstrapURLKeys={{ key: "AIzaSyDFIg5Kl3XDFflf0FZuhOJBIVARcWxQiOE" }}
           center={defaultProps.center}
@@ -48,4 +48,4 @@ const MapComponent = () => {
   );
 };
 
-export default MapComponent;
+export default MapApp;

@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
     <style>
       html,
       body {
@@ -13,17 +14,66 @@
         width: 100%;
         z-index: 1;
       }
+
+      .box3 {
+        width: fit-content;
+        margin: 50px auto;
+        border-radius: 15px;
+        background: #c3c3c3;
+        color: #000000;
+        padding: 20px;
+        text-align: center;
+        font-weight: 900;
+        font-family: arial;
+        position: relative;
+      }
+
+      /* speech bubble 13 */
+      .sb13:before {
+        content: "";
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        border-left: 15px solid #c3c3c3;
+        border-right: 15px solid transparent;
+        border-top: 15px solid #c3c3c3;
+        border-bottom: 15px solid transparent;
+        right: -16px;
+        top: 0px;
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: auto auto;
+      }
+      .grid-item {
+        font-size: 11px;
+        text-align: center;
+      }
     </style>
     <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>
     <link rel="shortcut icon" href="#" />
   </head>
 
   <body style="width: 100%; height: 100%">
+    <div style="position: absolute; right: 0%; top: 0%; z-index: 1000">
+      <iframe
+        src="http://127.0.0.1:3000/ai"
+        style="left: 0; border: none; width: 100%"
+      ></iframe>
+    </div>
+    <div style="position: absolute; left: 0%; top: 0%; z-index: 1000">
+      <iframe
+        src="http://127.0.0.1:3000/map"
+        allow="geolocation"
+        style="left: 0; border: none; width: 100%"
+      ></iframe>
+    </div>
     <div
       style="position: absolute; left: 0; bottom: 0; z-index: 1000; width: 100%"
     >
       <iframe
-        src="https://dashboard.avatour.duckdns.org"
+        src="http://127.0.0.1:3000/joystick"
         style="left: 0; border: none; width: 100%"
         allow="camera;microphone"
       ></iframe>
@@ -44,7 +94,7 @@
       </a-assets>
 
       <a-camera position="0 0 0"></a-camera>
-       <a-sky rotation="0 -90 0" src="#video"></a-sky>
+      <a-sky rotation="0 -90 0" src="#video"></a-sky>
     </a-scene>
     <!-- <div
       id="joyDiv"
