@@ -8,35 +8,36 @@ export default function AIApp() {
   const [counter, setCounter] = useState(0);
   var res;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("http://localhost:3001/log", {
-          method: "POST",
-        });
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        res = await response.json();
+  // TODO get this working with server on Jetson
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch("http://localhost:3001/log", {
+  //         method: "POST",
+  //       });
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       res = await response.json();
 
-        setData(res);
-        setCounter((prevCounter) => prevCounter + 1);
+  //       setData(res);
+  //       setCounter((prevCounter) => prevCounter + 1);
 
-        console.log("isWalking:", isWalking);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //       console.log("isWalking:", isWalking);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    // Fetch data initially when the component mounts
-    fetchData();
+  //   // Fetch data initially when the component mounts
+  //   fetchData();
 
-    // Set up interval to fetch data every 5 seconds
-    const intervalId = setInterval(fetchData, 5000);
+  //   // Set up interval to fetch data every 5 seconds
+  //   const intervalId = setInterval(fetchData, 5000);
 
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+  //   // Clean up the interval when the component unmounts
+  //   return () => clearInterval(intervalId);
+  // }, []); // Empty dependency array ensures this effect runs only once when the component mounts
 
   useEffect(() => {
     console.log("data changed");
