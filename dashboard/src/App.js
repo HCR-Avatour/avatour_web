@@ -14,6 +14,14 @@ function App() {
   const [switchState, setSwitchState] = useState(0); // false for off, true for on
   const url = "https://motion.avatour.duckdns.org";
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("map")) {
+      console.log("map");
+    }
+  }, []);
+
   const sendDataToServer = (data) => {
     console.log(data);
 
@@ -86,7 +94,7 @@ function App() {
 
       <div>
         <Switch
-          checked={switchState}
+          checked={switchState ? true : false}
           onChange={handleSwitchChange}
           inputProps={{ "aria-label": "controlled" }}
         />
