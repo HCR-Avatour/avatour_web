@@ -25,16 +25,16 @@ const MapApp = () => {
       lat: position.latitude,
       lng: position.longitude,
     },
-    zoom: 11,
+    zoom: 1,
   };
 
   return (
     // Important! Always set the container height explicitly
     <div>
-      <div style={{ height: "100vh", width: "100vw" }}>
+      <div style={{ height: "100vh", width: "100vw", opacity: 0.5 }}>
         <GoogleMap
           bootstrapURLKeys={{ key: "AIzaSyDFIg5Kl3XDFflf0FZuhOJBIVARcWxQiOE" }}
-          center={defaultProps.center}
+          defaultCenter={defaultProps.center}
           zoom={defaultProps.zoom}
         >
           <Marker
