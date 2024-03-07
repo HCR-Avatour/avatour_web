@@ -76,25 +76,7 @@ export default function AI() {
           setData(res);
           setPrevData(res);
           setCounter(prevCounter => prevCounter + 1);
-          // setCounter(counter+1);
-          // if (prevData != data){
-          //   setIsWalking(false)
-          //   counter = 0
-          // }
-          // else if (prevData == data){
-          //   if (counter < 5){
-          //     setIsWalking(false)
-          //   }
-          //   else{
-          //     setIsWalking(true)
-          //   }
-          // }
-        
-          // setPrevData(res);
 
-          // console.log("prvString: ", prevData)
-
-          // console.log("count:", counter)
           console.log("isWalking:", isWalking)
         } catch (error) {
           console.error('Error fetching data:', error);
@@ -158,6 +140,7 @@ export default function AI() {
           src='RobotExpressive.glb'
           autoplay
           animation-name="Walking"
+          camera-orbit="1deg"
           animation-loop
           animation-playback-controls>
       </model-viewer>
