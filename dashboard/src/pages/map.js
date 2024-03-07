@@ -25,7 +25,7 @@ const MapApp = () => {
       lat: position.latitude,
       lng: position.longitude,
     },
-    zoom: 1,
+    zoom: 11,
   };
 
   return (
@@ -34,14 +34,14 @@ const MapApp = () => {
       <div style={{ height: "100vh", width: "100vw", opacity: 0.5 }}>
         <GoogleMap
           bootstrapURLKeys={{ key: "AIzaSyDFIg5Kl3XDFflf0FZuhOJBIVARcWxQiOE" }}
-          defaultCenter={defaultProps.center}
+          center={defaultProps.center}
           zoom={defaultProps.zoom}
         >
-          <Marker
+          {/* <Marker
             lat={position.latitude}
             lng={position.longitude}
             text="Avatour"
-          />
+          /> */}
         </GoogleMap>
       </div>
     </div>

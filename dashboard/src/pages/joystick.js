@@ -10,8 +10,8 @@ function JoystickApp() {
     x: 0.0,
     y: 0.0,
   });
-  const [switchState, setSwitchState] = useState(0); // false for off, true for on
-  const url = "https://motion.avatour.duckdns.org/";
+  const [switchState, setSwitchState] = useState(false); // false for off, true for on
+  const url = "https://motion.avatour.duckdns.org";
 
   const sendDataToServer = (data) => {
     console.log(data);
@@ -19,7 +19,7 @@ function JoystickApp() {
     axios
       .post(url, data)
       .then((response) => {
-        console.log("Success!", response.data);
+        console.log("Success!", response);
       })
       .catch((error) => {
         console.error("There was an error!", error);

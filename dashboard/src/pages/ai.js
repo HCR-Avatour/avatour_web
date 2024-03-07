@@ -6,38 +6,41 @@ export default function AIApp() {
   const [data, setData] = useState(null);
   const [isWalking, setIsWalking] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [audioUrl, setAudioUrl] = useState(null);
   var res;
 
   // TODO get this working with server on Jetson
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:3001/log", {
-  //         method: "POST",
-  //       });
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       res = await response.json();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://assistant.avatour.duckdns.org/log", {
+          method: "POST",
+        });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        res = await response.json();
 
-  //       setData(res);
-  //       setCounter((prevCounter) => prevCounter + 1);
+        setData(res.transcript);
+        setCounter((prevCounter) => prevCounter + 1);
+        setAudioUrl(res.audioUrl);
 
-  //       console.log("isWalking:", isWalking);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
 
-  //   // Fetch data initially when the component mounts
-  //   fetchData();
+        console.log("isWalking:", isWalking);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  //   // Set up interval to fetch data every 5 seconds
-  //   const intervalId = setInterval(fetchData, 5000);
+    // Fetch data initially when the component mounts
+    fetchData();
 
-  //   // Clean up the interval when the component unmounts
-  //   return () => clearInterval(intervalId);
-  // }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+    // Set up interval to fetch data every 5 seconds
+    const intervalId = setInterval(fetchData, 5000);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
 
   useEffect(() => {
     console.log("data changed");
@@ -88,6 +91,8 @@ export default function AIApp() {
 
   return (
     <div className="AI">
+      <h1>{audioUrl}</h1>
+      <audio src='uploads/pipeline.wav' controls />
       <div style={gridContainer}>
         <div style={gridItem}>
           <div className="box3 sb13">{data}</div>

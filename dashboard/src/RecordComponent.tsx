@@ -14,7 +14,7 @@ export default function RecordComponent() {
       formData.append('fileCounter', counter.toString());
 
       console.log('Sending audio to server ', 'audio'+counter+'.webm');
-      const response = await fetch('http://avatour.duckdns.org:5005/synth', { // update IP here with container IP (if run in wsl, get wsl ip through "wsl hostname -I")
+      const response = await fetch('https://speech.avatour.duckdns.org/synth', { // update IP here with container IP (if run in wsl, get wsl ip through "wsl hostname -I")
         method: 'POST',
         body: formData
         }
