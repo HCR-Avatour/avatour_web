@@ -12,6 +12,7 @@ function JoystickApp() {
   });
   const [switchState, setSwitchState] = useState(false); // false for off, true for on
   const url = "https://motion.avatour.duckdns.org";
+  // const {react} = RecordComponent();
 
   const sendDataToServer = (data) => {
     console.log(data);
@@ -92,6 +93,7 @@ function JoystickApp() {
       </div>
       <div>
         <RecordComponent />
+        {/* {react} */}
       </div>
 
       <div style={{ width: "30%", display: "flex", justifyContent: "center" }}>

@@ -32,8 +32,9 @@ app.post("/", upload.single("audioFile"), (req, res) => {
   res.status(200).send("Request received successfully");
   bodyString = req.body.transcript;
   audioFile = req.file;
-  audioUrl = req.file.path.split("/")[-1];
+  audioUrl = req.file.path;
   console.log("audioFile:: ", audioFile);
+  console.log("audioUrl:: ", audioUrl);
 });
 
 // sending to the react app

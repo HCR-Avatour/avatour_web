@@ -1,15 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "../index.css";
 import { Helmet } from "react-helmet";
+// import RecordComponent from "../RecordComponent.tsx";
 
 export default function AIApp() {
   const [data, setData] = useState(null);
   const [isWalking, setIsWalking] = useState(false);
   const [counter, setCounter] = useState(0);
   const [audioUrl, setAudioUrl] = useState(null);
+  // const { loading_audio } = RecordComponent();
+
   var res;
 
-  // TODO get this working with server on Jetson
+  const audioRef = useRef(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,16 +61,26 @@ export default function AIApp() {
       setIsWalking(true);
       setCounter(0); // Reset the counter
     }
+    // console.log("loading_audio: ", loading_audio);
   }, [counter]);
+
+  useEffect(() => {
+    // Add an event listener to play the audio when the src changes
+    if(audioUrl != null && audioRef.current != null){
+      audioRef.current.play();
+    }
+  }, [audioUrl]);
 
   const gridContainer = {
     display: "grid",
     gridTemplateColumns: "auto auto",
+    overflow: "clip",
   };
 
   const gridItem = {
     fontSize: "11px",
     textAlign: "center",
+    overflow: "clip",
   };
 
   const nodContent = `
@@ -91,11 +105,18 @@ export default function AIApp() {
 
   return (
     <div className="AI">
-      <h1>{audioUrl}</h1>
-      <audio src='uploads/pipeline.wav' controls />
+      {/* NEED TO CHANGE BROWSER PRIVACY SETTINGS TO ALLOW AUDIO AUTOPLAY */}
+
+      <audio ref={audioRef}/>
+       <source src={audioUrl} type="audio/wav" />
+      {/* <audio src={audioUrl} ref={audioRef}/> */}
       <div style={gridContainer}>
         <div style={gridItem}>
-          <div className="box3 sb13">{data}</div>
+          <div className="box3 sb13">
+            {/* loadingAUDIO: {String(loading_audio)}
+            {loading_audio ?  "Loading..." : data} */}
+            {data}
+          </div>
         </div>
         <div style={gridItem}>
           <Helmet>
@@ -106,12 +127,12 @@ export default function AIApp() {
           </Helmet>
           {isWalking ? (
             <div
-              style={{ height: "300px" }}
+              style={{ height: "fit-content" }}
               dangerouslySetInnerHTML={{ __html: walkingContent }}
             ></div>
           ) : (
             <div
-              style={{ height: "300px" }}
+              style={{ height: "fit-content" }}
               dangerouslySetInnerHTML={{ __html: nodContent }}
             ></div>
           )}

@@ -1,9 +1,27 @@
 import * as React from 'react';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 
+export const useLoadingShared = () => {
+  const [loading_audio, setLoadingAudio] = React.useState(false);
+
+  const setLoadingFalse = () => {
+    console.log('Setting loading to false');
+    setLoadingAudio(false);
+  }
+
+  const setLoadingTrue = () => {
+    console.log('Setting loading to true');
+    setLoadingAudio(true);
+  }
+
+  return { loading_audio, setLoadingFalse, setLoadingTrue};
+};
+
 export default function RecordComponent() {
 
   const [counter, setCounter] = React.useState(0);
+  const { setLoadingFalse, setLoadingTrue } = useLoadingShared();
+  const [loading_audio, setLoadingAudio] = React.useState(false);
 
   const handleButtonClick = async (blob: Blob) => {
     try {
@@ -13,20 +31,35 @@ export default function RecordComponent() {
       formData.append('audioFile', blob, 'audio'+counter+'.webm');
       formData.append('fileCounter', counter.toString());
 
+      setLoadingTrue();
+      setLoadingAudio(true);
       console.log('Sending audio to server ', 'audio'+counter+'.webm');
       const response = await fetch('https://speech.avatour.duckdns.org/synth', { // update IP here with container IP (if run in wsl, get wsl ip through "wsl hostname -I")
         method: 'POST',
         body: formData
         }
       );
-  
+      // const response = {
+      //   ok: true,
+      //   text: 'Success'
+      // }
+      // setTimeout(() => {
+      //   // Run code
+      // }, 5000);
+      
       if (response.ok) {
-        console.log('Server response:', await response.text());
+        console.log('Server response:', response.text);
+        // setLoadingFalse();
+        setLoadingAudio(false);
       } else {
         console.error('handleButtonClick Failed to communicate with the server');
+        // setLoadingFalse();
+        setLoadingAudio(false);
       }
+      
     } catch (error) {
       console.error('Error:', error);
+      setLoadingFalse();
     }
   };
 
@@ -51,6 +84,7 @@ export default function RecordComponent() {
     (err) => console.table(err) // onNotAllowedOrFound
   );
 
+  // const react =  ( 
   return (
     <div>
       <AudioRecorder
@@ -76,4 +110,6 @@ export default function RecordComponent() {
       />
     </div>
   );
+
+  // return { react, loading_audio}
 }
