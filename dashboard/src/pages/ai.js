@@ -36,13 +36,10 @@ export default function AIApp() {
       }
     };
 
-    // Fetch data initially when the component mounts
     fetchData();
 
-    // Set up interval to fetch data every 5 seconds
     const intervalId = setInterval(fetchData, 5000);
 
-    // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
   }, []); 
 
@@ -125,14 +122,10 @@ export default function AIApp() {
         </model-viewer>
     `;
 
-  
-    
   return (
     <div className="AI">
       {/* NEED TO CHANGE BROWSER PRIVACY SETTINGS TO ALLOW AUDIO AUTOPLAY */}
       <audio ref={audioRef} src={audioUrl}/>
-       {/* <source src={audioUrl} type="audio/wav" /> */}
-      {/* <audio src={audioUrl} ref={audioRef} controls/> */}
       <div style={gridContainer}>
         <div style={gridItem}>
           <div className="box3 sb13">

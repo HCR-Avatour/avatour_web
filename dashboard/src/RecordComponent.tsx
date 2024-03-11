@@ -69,8 +69,6 @@ export default function RecordComponent() {
 
         console.error('handleButtonClick Failed to communicate with the server');
       }
-
-      
       
     } catch (error) {
       console.error('Error:', error);
@@ -125,5 +123,4 @@ export default function RecordComponent() {
     </div>
   );
 
-  // return { react, loading_audio}
 }
