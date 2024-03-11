@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { createContext, useState, useContext } from 'react';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 
 export default function RecordComponent() {
-
   const [counter, setCounter] = React.useState(0);
 
   const handleButtonClick = async (blob: Blob) => {
@@ -12,19 +12,64 @@ export default function RecordComponent() {
       // Assuming your blob is named 'audioBlob', adjust accordingly
       formData.append('audioFile', blob, 'audio'+counter+'.webm');
       formData.append('fileCounter', counter.toString());
+      
+      const startResponse = await fetch('https://assistant.avatour.duckdns.org/load', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Specify the content type if sending JSON data
+        },
+        body: JSON.stringify({load: "start"}), // Convert sharedBool to JSON and send it in the request body
+      });
+
+      if (!startResponse.ok) {
+        throw new Error('Failed to send data to the server');
+      }
 
       console.log('Sending audio to server ', 'audio'+counter+'.webm');
-      const response = await fetch('http://avatour.duckdns.org:5005/synth', { // update IP here with container IP (if run in wsl, get wsl ip through "wsl hostname -I")
+      const response = await fetch('https://speech.avatour.duckdns.org/synth', { // update IP here with container IP (if run in wsl, get wsl ip through "wsl hostname -I")
         method: 'POST',
         body: formData
         }
       );
-  
+      // const response = {
+      //   ok: true,
+      //   text: 'Success'
+      // }
+      // setTimeout(() => {
+      //   // Run code
+      // }, 5000);
+      
       if (response.ok) {
-        console.log('Server response:', await response.text());
+        console.log('Server response:', response.text);
+
+        const stopResponse = await fetch('https://assistant.avatour.duckdns.org/load', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify({load: "end"}), 
+        });
+
+        if (!stopResponse.ok) {
+          throw new Error('Failed to send data to the server');
+        }
+       
       } else {
+        const stopResponse = await fetch('https://assistant.avatour.duckdns.org/load', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({load: "end"}),
+        });
+
+        if (!stopResponse.ok) {
+          throw new Error('Failed to send data to the server');
+        }
+
         console.error('handleButtonClick Failed to communicate with the server');
       }
+      
     } catch (error) {
       console.error('Error:', error);
     }
@@ -51,6 +96,7 @@ export default function RecordComponent() {
     (err) => console.table(err) // onNotAllowedOrFound
   );
 
+  // const react =  ( 
   return (
     <div>
       <AudioRecorder
@@ -76,4 +122,5 @@ export default function RecordComponent() {
       />
     </div>
   );
+
 }
