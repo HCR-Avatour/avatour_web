@@ -3,6 +3,7 @@ import { Joystick } from "react-joystick-component";
 import Switch from "@mui/material/Switch";
 import axios from "axios";
 import RecordComponent from "../RecordComponent.tsx";
+import Button from "react-bootstrap/Button";
 
 function JoystickApp() {
   const [leftJoystickData, setLeftJoystickData] = useState({ x: 0.0, y: 0.0 });
@@ -11,6 +12,8 @@ function JoystickApp() {
     y: 0.0,
   });
   const [switchState, setSwitchState] = useState(0); // false for off, true for on
+  const [controlState, setControlState] = useState(0); // false for off, true for on
+
   const url = "https://motion.avatour.duckdns.org/";
 
   const sendDataToServer = (data) => {
@@ -30,13 +33,14 @@ function JoystickApp() {
     let data = {
       // content: `(${x}, ${y})`
       content: {
+        control: controlState ? 1 : 0,
         Mode: switchState ? 1 : 0,
         leftJoystick: leftJoystickData,
         rightJoystick: rightJoystickData,
       },
     };
     sendDataToServer(data);
-  }, [leftJoystickData, rightJoystickData, switchState]);
+  }, [controlState, leftJoystickData, rightJoystickData, switchState]);
 
   const leftOnMove = (e) => {
     const x = e.x;
@@ -82,18 +86,39 @@ function JoystickApp() {
           stop={leftStop}
         />
       </div>
-
+      <div>
+        <Button
+          style={{
+            borderRadius: "60px",
+            width: "100px",
+            height: "100px",
+            borderStyle: "solid",
+            borderWidth: "5px",
+            borderColor: "black",
+          }}
+          variant={controlState ? "success" : "danger"}
+          size="lg"
+          onClick={() => {
+            setControlState(!controlState);
+          }}
+        >
+          {controlState ? (
+            <img src={require("../static_assets/happy_robot.png")} width={50} />
+          ) : (
+            <img src={require("../static_assets/dead_robot.png")} width={50} />
+          )}
+        </Button>
+      </div>
       <div>
         <Switch
           checked={switchState ? true : false}
-          onChange={handleSwitchChange}
+          onStatusChange={handleSwitchChange}
           inputProps={{ "aria-label": "controlled" }}
         />
       </div>
       <div>
         <RecordComponent />
       </div>
-
       <div style={{ width: "30%", display: "flex", justifyContent: "center" }}>
         <Joystick
           size={100}
