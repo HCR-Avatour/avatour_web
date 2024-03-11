@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react";
 import "../index.css";
 import { Helmet } from "react-helmet";
-// import RecordComponent from "../RecordComponent.tsx";
 
 export default function AIApp() {
   const [data, setData] = useState(null);
   const [isWalking, setIsWalking] = useState(false);
   const [counter, setCounter] = useState(0);
   const [audioUrl, setAudioUrl] = useState(null);
-  // const { loading_audio } = RecordComponent();
+  const [loading, setLoading] = useState(false);
+  const [isIdle, setIsIdle] = useState(true);
 
   var res;
 
@@ -28,9 +28,9 @@ export default function AIApp() {
         setData(res.transcript);
         setCounter((prevCounter) => prevCounter + 1);
         setAudioUrl(res.audioUrl);
+        setLoading(res.loading);
 
-
-        console.log("isWalking:", isWalking);
+        // console.log("isWalking:", isWalking);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -44,28 +44,37 @@ export default function AIApp() {
 
     // Clean up the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+  }, []); 
 
   useEffect(() => {
     console.log("data changed");
     // printData();
     setIsWalking(false);
+    setIsIdle(false);
     setCounter(0);
   }, [data]);
 
   useEffect(() => {
-    console.log("counter changed");
-    console.log("counter: ", counter);
+    console.log("loading changed");
+    // printData();
+    setIsWalking(false);
+    setIsIdle(true);
+    setCounter(0);
+  }, [loading == true]);
+
+  useEffect(() => {
+    // console.log("counter changed");
+    // console.log("counter: ", counter);
     if (counter > 2) {
-      console.log("greater than 5");
+      // console.log("greater than 5");
       setIsWalking(true);
       setCounter(0); // Reset the counter
     }
-    // console.log("loading_audio: ", loading_audio);
   }, [counter]);
 
   useEffect(() => {
     // Add an event listener to play the audio when the src changes
+    console.log("audio changed")
     if(audioUrl != null && audioRef.current != null){
       audioRef.current.play();
     }
@@ -73,14 +82,17 @@ export default function AIApp() {
 
   const gridContainer = {
     display: "grid",
-    gridTemplateColumns: "auto auto",
+    gridTemplateColumns: "700px 300px",
     overflow: "clip",
+    justifyItems: "end",
+    padding: "2px",
   };
 
   const gridItem = {
     fontSize: "11px",
     textAlign: "center",
     overflow: "clip",
+    align: "right",
   };
 
   const nodContent = `
@@ -103,19 +115,28 @@ export default function AIApp() {
       </model-viewer>
     `;
 
+  const idleContent = `
+    <model-viewer 
+            src='RobotExpressive.glb'
+            autoplay
+            animation-name="Idle"
+            animation-loop
+            animation-playback-controls>
+        </model-viewer>
+    `;
+
+  
+    
   return (
     <div className="AI">
       {/* NEED TO CHANGE BROWSER PRIVACY SETTINGS TO ALLOW AUDIO AUTOPLAY */}
-
-      <audio ref={audioRef}/>
-       <source src={audioUrl} type="audio/wav" />
-      {/* <audio src={audioUrl} ref={audioRef}/> */}
+      <audio ref={audioRef} src={audioUrl}/>
+       {/* <source src={audioUrl} type="audio/wav" /> */}
+      {/* <audio src={audioUrl} ref={audioRef} controls/> */}
       <div style={gridContainer}>
         <div style={gridItem}>
           <div className="box3 sb13">
-            {/* loadingAUDIO: {String(loading_audio)}
-            {loading_audio ?  "Loading..." : data} */}
-            {data}
+            {loading ? "Thinking..." : data}
           </div>
         </div>
         <div style={gridItem}>
@@ -125,16 +146,23 @@ export default function AIApp() {
               src="https://unpkg.com/@google/model-viewer"
             ></script>
           </Helmet>
-          {isWalking ? (
+          {isIdle ? (
             <div
               style={{ height: "fit-content" }}
-              dangerouslySetInnerHTML={{ __html: walkingContent }}
+              dangerouslySetInnerHTML={{ __html: idleContent }}
             ></div>
           ) : (
-            <div
-              style={{ height: "fit-content" }}
-              dangerouslySetInnerHTML={{ __html: nodContent }}
-            ></div>
+            isWalking ? (
+              <div
+                style={{ height: "fit-content" }}
+                dangerouslySetInnerHTML={{ __html: walkingContent }}
+              ></div>
+            ) : (
+              <div
+                style={{ height: "fit-content" }}
+                dangerouslySetInnerHTML={{ __html: nodContent }}
+              ></div>
+            )
           )}
         </div>
       </div>

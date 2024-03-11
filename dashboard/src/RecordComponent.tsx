@@ -1,27 +1,9 @@
 import * as React from 'react';
+import { createContext, useState, useContext } from 'react';
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 
-export const useLoadingShared = () => {
-  const [loading_audio, setLoadingAudio] = React.useState(false);
-
-  const setLoadingFalse = () => {
-    console.log('Setting loading to false');
-    setLoadingAudio(false);
-  }
-
-  const setLoadingTrue = () => {
-    console.log('Setting loading to true');
-    setLoadingAudio(true);
-  }
-
-  return { loading_audio, setLoadingFalse, setLoadingTrue};
-};
-
 export default function RecordComponent() {
-
   const [counter, setCounter] = React.useState(0);
-  const { setLoadingFalse, setLoadingTrue } = useLoadingShared();
-  const [loading_audio, setLoadingAudio] = React.useState(false);
 
   const handleButtonClick = async (blob: Blob) => {
     try {
@@ -30,9 +12,19 @@ export default function RecordComponent() {
       // Assuming your blob is named 'audioBlob', adjust accordingly
       formData.append('audioFile', blob, 'audio'+counter+'.webm');
       formData.append('fileCounter', counter.toString());
+      
+      const startResponse = await fetch('https://assistant.avatour.duckdns.org/load', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Specify the content type if sending JSON data
+        },
+        body: JSON.stringify({load: "start"}), // Convert sharedBool to JSON and send it in the request body
+      });
 
-      setLoadingTrue();
-      setLoadingAudio(true);
+      if (!startResponse.ok) {
+        throw new Error('Failed to send data to the server');
+      }
+
       console.log('Sending audio to server ', 'audio'+counter+'.webm');
       const response = await fetch('https://speech.avatour.duckdns.org/synth', { // update IP here with container IP (if run in wsl, get wsl ip through "wsl hostname -I")
         method: 'POST',
@@ -49,17 +41,39 @@ export default function RecordComponent() {
       
       if (response.ok) {
         console.log('Server response:', response.text);
-        // setLoadingFalse();
-        setLoadingAudio(false);
+
+        const stopResponse = await fetch('https://assistant.avatour.duckdns.org/load', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify({load: "end"}), 
+        });
+
+        if (!stopResponse.ok) {
+          throw new Error('Failed to send data to the server');
+        }
+       
       } else {
+        const stopResponse = await fetch('https://assistant.avatour.duckdns.org/load', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({load: "end"}),
+        });
+
+        if (!stopResponse.ok) {
+          throw new Error('Failed to send data to the server');
+        }
+
         console.error('handleButtonClick Failed to communicate with the server');
-        // setLoadingFalse();
-        setLoadingAudio(false);
       }
+
+      
       
     } catch (error) {
       console.error('Error:', error);
-      setLoadingFalse();
     }
   };
 

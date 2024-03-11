@@ -17,8 +17,9 @@ var storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-var bodyString = "";
-var audioUrl = "";
+var bodyString = "Hello, how can I assist you today? Where would you like to go for your next trip?";
+var audioUrl = "uploads/start_audio.wav";
+var loading = false;
 
 app.use(express.json());
 // add cors
@@ -44,10 +45,31 @@ app.post("/log", (req, res) => {
   responseData = {
     transcript: bodyString,
     audioUrl: audioUrl,
+    loading: loading,
   };
 
   res.json(responseData);
 });
+
+app.post("/load", (req, res) => {
+  console.log("Received HTTP request Load:", req.body);
+
+  if (req.body.load == "start"){
+    loading = true;
+  } else {
+    loading = false;
+  }
+  responseData = {
+    transcript: bodyString,
+    audioUrl: audioUrl,
+    loading: loading
+  };
+
+  // res.json(responseData);
+  res.status(200).send("Request received successfully");
+
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
