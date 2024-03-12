@@ -11,6 +11,14 @@ export default function AIApp() {
   const [isIdle, setIsIdle] = useState(true);
 
   var res;
+  const msg = new SpeechSynthesisUtterance();
+
+  msg.pitch = 1;
+  msg.rate = 1;
+  msg.volume = 1;
+  // console.log(window.speechSynthesis.getVoices())
+  msg.voice = window.speechSynthesis.getVoices()[159];
+
 
   const audioRef = useRef(null);
 
@@ -43,12 +51,16 @@ export default function AIApp() {
     return () => clearInterval(intervalId);
   }, []); 
 
+
   useEffect(() => {
     console.log("data changed");
     // printData();
     setIsWalking(false);
     setIsIdle(false);
     setCounter(0);
+    msg.text = data;
+    window.speechSynthesis.speak(msg);
+
   }, [data]);
 
   useEffect(() => {
@@ -69,13 +81,16 @@ export default function AIApp() {
     }
   }, [counter]);
 
-  useEffect(() => {
-    // Add an event listener to play the audio when the src changes
-    console.log("audio changed")
-    if(audioUrl != null && audioRef.current != null){
-      audioRef.current.play();
-    }
-  }, [audioUrl]);
+  // useEffect(() => {
+  //   // Add an event listener to play the audio when the src changes
+  //   console.log("audio changed")
+    
+  //   if(audioUrl != null && audioRef.current != null){
+  //     audioRef.current.play();
+  //   }
+  // }, [audioUrl]);
+
+  
 
   const gridContainer = {
     display: "grid",
@@ -125,7 +140,7 @@ export default function AIApp() {
   return (
     <div className="AI">
       {/* NEED TO CHANGE BROWSER PRIVACY SETTINGS TO ALLOW AUDIO AUTOPLAY */}
-      <audio ref={audioRef} src={audioUrl}/>
+     {/*<audio ref={audioRef} src={audioUrl}/>*/}
       <div style={gridContainer}>
         <div style={gridItem}>
           <div className="box3 sb13">

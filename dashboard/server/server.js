@@ -28,14 +28,26 @@ app.use(cors());
 
 // Endpoint to handle incoming POST requests
 // where the pipeline sends the msg
-app.post("/", upload.single("audioFile"), (req, res) => {
-  console.log("Received HTTP request:", req.body);
+// app.post("/", upload.single("audioFile"), (req, res) => {
+app.post("/", (req, res) => {
+  console.log("Received HTTP request:", req);
   res.status(200).send("Request received successfully");
   bodyString = req.body.transcript;
-  audioFile = req.file;
-  audioUrl = req.file.path;
-  console.log("audioFile:: ", audioFile);
-  console.log("audioUrl:: ", audioUrl);
+  console.log("bodyString:: ", bodyString);
+  // audioFile = req.file;
+  // audioUrl = req.file.path;
+  // console.log("audioFile:: ", audioFile);
+  // console.log("audioUrl:: ", audioUrl);
+  // if (req.file != null){
+  //   audioFile = req.file;
+  //   audioUrl = req.file.path;
+  //   console.log("audioFile:: ", audioFile);
+  //   console.log("audioUrl:: ", audioUrl);
+  // }
+  // else{
+  //   console.log("No audio file received");
+  //   audioUrl = null;
+  // }
 });
 
 // sending to the react app
