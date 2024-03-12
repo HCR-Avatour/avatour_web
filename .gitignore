@@ -6,6 +6,9 @@ node_modules/
 dashboard/server/node_modules/
 /.pnp
 .pnp.js
+node_modules/
+dashboard/server/node_modules/
+
 
 # testing
 /coverage

@@ -40,7 +40,7 @@ export default function RecordComponent() {
       // }, 5000);
       
       if (response.ok) {
-        console.log('Server response:', response.text);
+        console.log('Server response:', response.text, ', with body:', response.body);
 
         const stopResponse = await fetch('https://assistant.avatour.duckdns.org/load', {
           method: 'POST',
