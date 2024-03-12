@@ -16,13 +16,14 @@ function JoystickApp() {
 
   const url = "https://motion.avatour.duckdns.org/";
 
+
   const sendDataToServer = (data) => {
     console.log(data);
 
     axios
       .post(url, data)
       .then((response) => {
-        console.log("Success!", response.data);
+        console.log("Success!", response);
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -118,6 +119,7 @@ function JoystickApp() {
       </div>
       <div>
         <RecordComponent />
+        {/* {react} */}
       </div>
       <div style={{ width: "30%", display: "flex", justifyContent: "center" }}>
         <Joystick
