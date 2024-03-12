@@ -33,7 +33,7 @@ function JoystickApp() {
     let data = {
       // content: `(${x}, ${y})`
       content: {
-        control: controlState ? 1 : 0,
+        Control: controlState ? 1 : 0,
         Mode: switchState ? 1 : 0,
         leftJoystick: leftJoystickData,
         rightJoystick: rightJoystickData,
