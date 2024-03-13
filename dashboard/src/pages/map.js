@@ -57,7 +57,7 @@ const MapApp = () => {
   return (
     // Important! Always set the container height explicitly
     <div>
-      <div style={{ height: "100vh", width: "100vw", opacity: 0.5 }}>
+      <div style={{ height: "100vh", width: "100vw" }}>
         <GoogleMap
           bootstrapURLKeys={{ key: "AIzaSyDFIg5Kl3XDFflf0FZuhOJBIVARcWxQiOE" }}
           center={defaultProps.center}
