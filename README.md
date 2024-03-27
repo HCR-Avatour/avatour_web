@@ -28,6 +28,12 @@ npm install
 npm start
 ```
 
+To run the server for the AI Assistant:
+```
+cd dashboard/server
+node server.js
+```
+
 To run web app:
 ```
 cd stream_feed
